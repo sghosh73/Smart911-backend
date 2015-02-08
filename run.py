@@ -1,5 +1,7 @@
 from flask import Flask, request, redirect
+from firebase import firebase
 import twilio.twiml
+import json
  
 app = Flask(__name__)
  
@@ -30,12 +32,23 @@ def handle_key():
     digit_pressed = request.values.get('Digits', None)
     if digit_pressed == "1":
         resp = twilio.twiml.Response()
-        # Dial (310) 555-1212 - connect that number to the incoming caller.
-        resp.dial("+14086411239")
+
+
+        firebase = firebase.FirebaseApplication('https://smart911.firebaseio.com', None)
+        result = firebase.get('/operators', None)
+
+        for operator in result:
+        	if result[operator.encode('ascii')][online] == True:
+        		resp.dial("+" + str(result[operator.encode('ascii')][number]))
+        		return str(resp)
+
+
+
+        # resp.dial("+14086411239")
         # If the dial fails:
-        resp.say("The call failed, or the remote party hung up. Goodbye.")
+        resp.say("Sorry, no operator is available")
  
-        return str(resp)
+        return redirect("/")
  
     # If the caller pressed anything but 1, redirect them to the homepage.
     else:
