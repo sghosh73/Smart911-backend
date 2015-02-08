@@ -1,5 +1,4 @@
 from flask import Flask, request, redirect
-from __future__ import with_statement   # Only necessary for Python 2.5
 import twilio.twiml
  
 app = Flask(__name__)
