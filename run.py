@@ -1,7 +1,5 @@
 from flask import Flask, request, redirect
-from firebase import firebase
 import twilio.twiml
-import json
  
 app = Flask(__name__)
  
@@ -33,6 +31,7 @@ def handle_key():
     if digit_pressed == "1":
         resp = twilio.twiml.Response()
 
+        from firebase import firebase
 
         firebase = firebase.FirebaseApplication('https://smart911.firebaseio.com', None)
         result = firebase.get('/operators', None)
