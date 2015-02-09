@@ -5,7 +5,7 @@ app = Flask(__name__)
  
  
 @app.route("/", methods=['GET', 'POST'])
-def hello_monkey():
+def hello():
     from_number = request.values.get('From', None)
  
     resp = twilio.twiml.Response()
@@ -58,7 +58,6 @@ def handle_key():
 
 
 
-        # resp.dial("+14086411239")
         # If the dial fails:
         resp.say("Sorry, no operator is available")
  
